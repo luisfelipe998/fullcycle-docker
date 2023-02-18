@@ -108,9 +108,45 @@ Remove a downloaded image:
 `docker rmi <image-name>:<image-tag>`
 
 ## Class 9: Creating an image
+See Dockerfile on this repo.
 
+Build image from Dockerfile:
+`docker build -f firstimg.Dockerfile -t luisfelipe998/nginx-with-vim:latest .`
 
+## Class 10: more on Dockerfile
+WORKDIR command sets the folder the container will use for further commands and execution 
 
+COPY commands copies a file/folder from machine to container
 
+`docker build -f secondimg.Dockerfile -t luisfelipe998/nginx-with-vim:latest .`
 
+By default, the container executes with root user. USER command may change this on Dockerfile.
 
+## Class 11: ENTRYPOINT vs CMD
+Entrypoint: The entrypoint defined on Dockerfile cannot be replaced by any command passed on `docker run <image-name> <command>`
+
+Cmd: The command defined on Dockerfile can and will be replaced by the command passed on `docker run <image-name> <command>`. It may be used as parameter for the entrypoint if both defined
+
+## Class 12: Entrypoint exec
+ENV command sets environment variables: `ENV VAR_NAME VAR_VALUE` 
+
+EXPOSE command exposes the container port to the outside world.
+
+Check the [nginx image](https://github.com/nginxinc/docker-nginx/blob/5ce65c3efd395ee2d82d32670f233140e92dba99/mainline/debian/Dockerfile) out as an example.
+
+`exec "$@"` on the entrypoint shell script executes the commands defined on CMD or dynamicly passed during docker run.
+
+## Class 13: Publishing on Docker Hub
+Push image to Dockerhub
+`docker build -f thirdimg.Dockerfile -t luisfelipe998/nginx-custom .`
+`docker push luisfelipe998/nginx-custom`
+
+## Class 14: Networks
+Enable one container to communicate with another.
+
+Types:
+- Bridge: one container communicates with another.
+- Host: docker network with host network (local machine). Communicates the container with the host.
+- Overlay: connect several dockers to communicate with others.
+- Maclan: The container looks like a device connected on the host network.
+- None: container runs isolated.
