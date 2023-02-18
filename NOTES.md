@@ -95,3 +95,22 @@ The same volume can even be shared by more than one container at the same time.
 Remove docker volumes not used anymore:
 `docker volume prune -f`
 
+## Class 8: Images
+An image may have multiple tags. Dockerhub is the default registry. It's possible to provision your own registry.
+
+Download image locally:
+`docker pull <image-name>:<image-tag>`
+
+See downloaded images locally:
+`docker images`
+
+Remove a downloaded image:
+`docker rmi <image-name>:<image-tag>`
+
+## Class 9: Creating an image
+
+
+
+
+
+
