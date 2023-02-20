@@ -202,7 +202,7 @@ Run the container and check what needs to be installed to create a laravel custo
 - `docker-php-ext-install zip`
 - `php composer.phar create-project --prefer-dist laravel/laravel laravel`
 
-## Class 19: Creating image with framework
+## Class 19: Creating image with framework (laravel)
 Create Dockerfile (check inside `laraval-example` folder).
 
 Build image:
@@ -217,3 +217,26 @@ See container logs:
 Replacing CMD params by custom ones:
 `docker run -d --name laravel --rm -p 8001:8001 luisfelipe998/laravel --host=0.0.0.0 --port=8001`
 
+## Class 20: Creating Node.js app without Node.js installed locally
+Running a node.js container with a bind mount to local machine:
+`docker run --rm -it -v $(pwd)/node-example/:/usr/src/app/ -p 3000:3000 node:15 bash`
+
+And then inside the container: 
+- `touch index.js`. Note that the file was also created on local machine.
+- `npm init -y`
+- `npm install express`
+- Check index.js to see a hello world from express web framework
+- `node index.js`
+- Check localhost:3000 address.
+
+## Class 21: Generating image on Node.js application
+Check Dockerfile created inside `node-example` folder. Working inside a dev container ensures everyone will be working with same version in same environment.
+
+Build image:
+`docker build -t luisfelipe998/node ./node-example`
+
+Run the container:
+`docker run -d -p 3000:3000 luisfelipe998/node`
+
+Push image to docker registry:
+`docker push luisfelipe998/node`
