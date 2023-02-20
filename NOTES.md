@@ -240,3 +240,27 @@ Run the container:
 
 Push image to docker registry:
 `docker push luisfelipe998/node`
+
+## Class 22: Optimization with multi-stage building
+The idea is to use one env to build the image and another to run the container. Check `Dockerfile.prod` inside `laravel-example` folder.
+
+Build the optimized image:
+`docker build -t luisfelipe998/laravel:prod -f ./laravel-example/Dockerfile.prod ./laravel-example`
+
+## Class 23: Configuring nginx as reverse proxy to call laravel app
+Created `nginx` folder with necessary configuration to create reverse proxy to laravel app.
+
+Build the laravel:
+`docker build -t luisfelipe998/laravel:prod -f ./laravel-example/Dockerfile.prod ./laravel-example`
+
+Build nginx image:
+`docker build -t luisfelipe998/nginx:prod -f ./nginx/Dockerfile.prod ./nginx`
+
+Create network to connect laravel and nginx:
+`docker network create laravel-network`
+
+Run laravel container:
+`docker run -d --rm --network laravel-network --name laravel luisfelipe998/laravel:prod`
+
+Run nginx container:
+`docker run -d --rm --network laravel-network --name nginx -p 8080:80 luisfelipe998/nginx:prod`
