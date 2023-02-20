@@ -150,3 +150,70 @@ Types:
 - Overlay: connect several dockers to communicate with others.
 - Maclan: The container looks like a device connected on the host network.
 - None: container runs isolated.
+
+## Class 15: Bridge network
+List networks:
+`docker network ls`
+
+Remove all unused networks:
+`docker network prune`
+
+Inspect network to see configured containers using it:
+`docker network inspect <network-name>`
+
+Another way to enter in container's terminal (attach):
+`docker attach <container-name>`
+
+When no network is provided to container, it automatically uses the default bridge network.
+
+Create a new network:
+`docker network create --driver bridge mynetwork`
+
+Communicating 2 containers through the created network:
+- `docker run -dit --name ubuntu1 --network mynetwork bash`
+- `docker run -dit --name ubuntu2 --network mynetwork bash`
+- `docker exec -it ubuntu1 bash`
+- `ping ubuntu2` or `ping <ubuntu2-ip-addr>`
+
+Connect a running container to a network:
+`docker network connect <network-name> <container-name>`
+
+## Class 16: Host network
+Host network doesn't work on MacOS, because it will fetch the host network of the Linux VM and not the network from the host MacOS.
+
+Using host network (should bind the container port to the host port automatically):
+`docker run --rm -d --name nginx --network host nginx`
+
+## Class 17: Accessing host machine
+To access the local machine host on MacOS connected on a host network, instead of `localhost`, use `host.docker.internal`.
+
+## Class 18: Installing a framework on a container
+This example is stored on `laravel-example` folder. It uses the Laravel framework.
+
+Run the container and check what needs to be installed to create a laravel custom image:
+- `docker run -it --name php php:7.4.4-cli bash`
+- `cd /var/www`
+- `apt-get update`
+- `apt-get install libzip-dev -y`
+- `php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"`
+- `php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"`
+- `php composer-setup.php`
+- `php -r "unlink('composer-setup.php');"`
+- `docker-php-ext-install zip`
+- `php composer.phar create-project --prefer-dist laravel/laravel laravel`
+
+## Class 19: Creating image with framework
+Create Dockerfile (check inside `laraval-example` folder).
+
+Build image:
+`docker build -t luisfelipe998/laravel:latest ./laravel-example`
+
+Run built image:
+`docker run -d --name laravel --rm -p 8000:8000 luisfelipe998/laravel`
+
+See container logs:
+`docker logs laravel`
+
+Replacing CMD params by custom ones:
+`docker run -d --name laravel --rm -p 8001:8001 luisfelipe998/laravel --host=0.0.0.0 --port=8001`
+
