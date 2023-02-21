@@ -286,3 +286,48 @@ Stopping container from dokcer compose:
 `docker-compose down`
 
 ## Class 26: Connecting a MySQL on docker-compose
+Check `docker-compose.node.yml` file.
+
+Create db container:
+`docker-compose -f ./docker-compose.node.yml up -d --build`
+
+## Class 27: Configuring node on docker-compose
+Check app configuration on `docker-compose.node.yml` file.
+
+Create containers:
+`docker-compose -f ./docker-compose.node.yml up -d --build`
+
+## Class 28: Develop interaction between node.js and mysql
+Enter mysql container:
+`docker exec -it db bash`
+
+Enter mysql cli (inside container):
+`mysql -uroot -p` and type root password
+
+List databases:
+`show databases;`
+
+Create table:
+- `use nodedb;`
+- `create table people(id int not null auto_increment, name varchar(255), primary key(id));`
+- `desc people`
+
+Modified `index.js` on `node-example` folder to connect to MySQL and insert a new row on startup.
+
+## Class 29: Dependencies between containers
+Docker compose `depends_on` determines in which order the containers will start, but the dependent container will not wait for the other container to be up and running.
+
+Modify Dockerfile.prod of `node-example` folder to install dockerize (tool to allow containers to await for others to be ready)
+
+Entering node app bash:
+`docker exec -it app bash`
+
+Testing dockerize:
+`dockerize -wait tcp://db:3306 -timeout 50s`
+
+Adding an entrypoint with dockerize to docker-compose.node.yml.
+Recreating the containers:
+`docker-compose -f docker-compose.node.yml up -d --build`
+
+Check app container logs to check dockerize worked
+`docker container logs app`
