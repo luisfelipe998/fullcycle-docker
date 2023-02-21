@@ -264,3 +264,25 @@ Run laravel container:
 
 Run nginx container:
 `docker run -d --rm --network laravel-network --name nginx -p 8080:80 luisfelipe998/nginx:prod`
+
+## Class 24: docker-compose
+Create containers in a declarative way with one command. Check `docker-compose.laravel.yml` file
+
+Create containers with docker-compose:
+`docker-compose up`
+
+Use the `-f ./docker-compose.laravel.yml` to specify a file name different thant `docker-compose.yml`
+
+## Class 25: Building images with docker-compose
+Check `docker-compose.laravel.yml` file for the build tag on the services.
+
+Create containers with docker compose building them:
+`docker-compose up -d --build`
+
+Check containers from compose:
+`docker-compose ps`
+
+Stopping container from dokcer compose:
+`docker-compose down`
+
+## Class 26: Connecting a MySQL on docker-compose
