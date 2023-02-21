@@ -282,7 +282,7 @@ Create containers with docker compose building them:
 Check containers from compose:
 `docker-compose ps`
 
-Stopping container from dokcer compose:
+Stopping container from docker compose:
 `docker-compose down`
 
 ## Class 26: Connecting a MySQL on docker-compose
@@ -310,14 +310,14 @@ List databases:
 Create table:
 - `use nodedb;`
 - `create table people(id int not null auto_increment, name varchar(255), primary key(id));`
-- `desc people`
+- `desc people;`
 
 Modified `index.js` on `node-example` folder to connect to MySQL and insert a new row on startup.
 
 ## Class 29: Dependencies between containers
 Docker compose `depends_on` determines in which order the containers will start, but the dependent container will not wait for the other container to be up and running.
 
-Modify Dockerfile.prod of `node-example` folder to install dockerize (tool to allow containers to await for others to be ready)
+Modify `Dockerfile.prod` of `node-example` folder to install dockerize (tool to allow containers to await for others to be ready)
 
 Entering node app bash:
 `docker exec -it app bash`
